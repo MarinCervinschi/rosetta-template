@@ -20,9 +20,11 @@ const methodClass = `rosetta-apiref__method--${method.toLowerCase()}`;
 	{
 		schemaLabel && (
 			<p class="rosetta-apiref__schema">
-				Schema:{' '}
+				<span class="rosetta-apiref__schema-label">Schema:</span>{' '}
 				{schemaHref ? (
-					<a href={schemaHref}>{schemaLabel}</a>
+					<a href={schemaHref} class="rosetta-apiref__schema-link">
+						{schemaLabel}
+					</a>
 				) : (
 					<code>{schemaLabel}</code>
 				)}
@@ -34,49 +36,93 @@ const methodClass = `rosetta-apiref__method--${method.toLowerCase()}`;
 
 <style>
 	.rosetta-apiref {
-		border: 1px solid var(--sl-color-gray-5);
-		border-radius: 0.5rem;
-		padding: 0.9rem 1rem;
-		margin-block: 1rem;
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: var(--rosetta-radius-card);
+		padding: var(--rosetta-space-4) var(--rosetta-space-6);
+		margin-block: var(--rosetta-space-6);
 		background: var(--sl-color-bg-sidebar);
 	}
+
 	.rosetta-apiref__head {
 		display: flex;
 		align-items: center;
-		gap: 0.6rem;
+		gap: var(--rosetta-space-3);
 		flex-wrap: wrap;
 	}
+
 	.rosetta-apiref__method {
-		display: inline-block;
-		padding: 0.15rem 0.55rem;
-		border-radius: 0.3rem;
-		font-size: var(--sl-text-xs);
+		display: inline-flex;
+		align-items: center;
+		height: 22px;
+		padding: 0 var(--rosetta-space-3);
+		border-radius: var(--rosetta-radius-pill);
+		font-family: var(--sl-font);
+		font-size: var(--rosetta-text-xs);
 		font-weight: 700;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: var(--sl-color-white);
+		color: white;
 	}
-	.rosetta-apiref__method--get { background: #2563eb; }
-	.rosetta-apiref__method--post { background: #16a34a; }
-	.rosetta-apiref__method--put { background: #d97706; }
-	.rosetta-apiref__method--patch { background: #9333ea; }
-	.rosetta-apiref__method--delete { background: #dc2626; }
+
+	.rosetta-apiref__method--get {
+		background: var(--rosetta-method-get);
+	}
+	.rosetta-apiref__method--post {
+		background: var(--rosetta-method-post);
+	}
+	.rosetta-apiref__method--put {
+		background: var(--rosetta-method-put);
+	}
+	.rosetta-apiref__method--patch {
+		background: var(--rosetta-method-patch);
+	}
+	.rosetta-apiref__method--delete {
+		background: var(--rosetta-method-delete);
+	}
+
 	.rosetta-apiref__path {
 		font-family: var(--sl-font-mono);
-		font-size: var(--sl-text-sm);
+		font-size: var(--rosetta-text-sm);
+		color: var(--sl-color-text);
+		background: transparent;
+		padding: 0;
 	}
+
 	.rosetta-apiref__desc {
-		margin: 0.6rem 0 0;
+		margin: var(--rosetta-space-3) 0 0;
 		color: var(--sl-color-gray-2);
+		line-height: 1.5;
 	}
+
 	.rosetta-apiref__schema {
-		margin: 0.4rem 0 0;
-		font-size: var(--sl-text-sm);
+		margin: var(--rosetta-space-2) 0 0;
+		font-size: var(--rosetta-text-sm);
+		color: var(--sl-color-gray-3);
 	}
+
+	.rosetta-apiref__schema-label {
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		font-size: var(--rosetta-text-xs);
+		font-weight: 500;
+	}
+
+	.rosetta-apiref__schema-link {
+		color: var(--sl-color-text-accent);
+		text-decoration: none;
+		border-bottom: 1px solid transparent;
+		transition: border-color var(--rosetta-duration) var(--rosetta-ease-out);
+	}
+
+	.rosetta-apiref__schema-link:hover {
+		border-bottom-color: var(--sl-color-accent);
+	}
+
 	.rosetta-apiref__body:empty {
 		display: none;
 	}
+
 	.rosetta-apiref__body:not(:empty) {
-		margin-top: 0.6rem;
+		margin-top: var(--rosetta-space-3);
 	}
 </style>
