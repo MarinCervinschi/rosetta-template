@@ -1,0 +1,19 @@
+---
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import CopyMarkdownButton from '../CopyMarkdownButton.astro';
+---
+
+<div class="rosetta-page-title">
+	<Default><slot /></Default>
+	<CopyMarkdownButton />
+</div>
+
+<style>
+	.rosetta-page-title {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+</style>

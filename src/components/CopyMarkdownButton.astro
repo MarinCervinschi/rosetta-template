@@ -1,0 +1,74 @@
+---
+// Fetches the raw-Markdown twin of the current page and writes it to
+// the clipboard. Works against the /<slug>.md endpoints emitted by the
+// llms-txt integration (Phase 4). Before that integration is wired,
+// clicking the button will show "Copy failed" — harmless, just early.
+
+const pathname = Astro.url.pathname.replace(/\/$/, '');
+const mdUrl = pathname === '' ? '/index.md' : `${pathname}.md`;
+---
+
+<button type="button" class="rosetta-copy-md" data-md-url={mdUrl}>
+	<span class="rosetta-copy-md__label">Copy as Markdown</span>
+</button>
+
+<script>
+	const RESET_AFTER_MS = 1500;
+
+	function bind() {
+		for (const btn of document.querySelectorAll<HTMLButtonElement>(
+			'.rosetta-copy-md',
+		)) {
+			if (btn.dataset.bound) continue;
+			btn.dataset.bound = '1';
+			btn.addEventListener('click', async () => {
+				const url = btn.dataset.mdUrl;
+				const label = btn.querySelector<HTMLElement>(
+					'.rosetta-copy-md__label',
+				);
+				if (!url || !label) return;
+				const original = label.textContent;
+				try {
+					const res = await fetch(url);
+					if (!res.ok) throw new Error(`HTTP ${res.status}`);
+					const text = await res.text();
+					await navigator.clipboard.writeText(text);
+					label.textContent = 'Copied';
+				} catch (err) {
+					console.error('[rosetta-copy-md]', err);
+					label.textContent = 'Copy failed';
+				}
+				setTimeout(() => {
+					label.textContent = original;
+				}, RESET_AFTER_MS);
+			});
+		}
+	}
+
+	bind();
+	document.addEventListener('astro:page-load', bind);
+</script>
+
+<style>
+	.rosetta-copy-md {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.3rem 0.7rem;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.4rem;
+		background: var(--sl-color-gray-6);
+		color: var(--sl-color-white);
+		font-size: var(--sl-text-xs);
+		font-family: var(--sl-font-system);
+		cursor: pointer;
+		transition: background-color 120ms ease;
+	}
+	.rosetta-copy-md:hover {
+		background: var(--sl-color-gray-5);
+	}
+	.rosetta-copy-md:focus-visible {
+		outline: 2px solid var(--sl-color-accent);
+		outline-offset: 2px;
+	}
+</style>
