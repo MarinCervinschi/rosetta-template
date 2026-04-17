@@ -11,6 +11,7 @@ export default defineConfig({
 			title: 'Rosetta.md',
 			description:
 				'AI-native documentation template — Astro Starlight + Diátaxis + raw-markdown endpoints.',
+			customCss: ['./src/styles/rosetta.css'],
 			components: {
 				PageTitle: './src/components/overrides/PageTitle.astro',
 			},
