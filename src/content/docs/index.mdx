@@ -1,44 +1,42 @@
 ---
 title: Rosetta.md
-description: A Golden Template for AI-native documentation — opinionated Astro Starlight + Diátaxis + raw-markdown endpoints the agent can read.
-template: splash
-hero:
-  tagline: The opinionated docs baseline your AI agent and your readers both understand.
-  actions:
-    - text: Tutorials
-      link: /tutorials/
-      icon: right-arrow
-    - text: How-to guides
-      link: /how-to/
-      icon: right-arrow
-      variant: minimal
-    - text: Reference
-      link: /reference/
-      icon: right-arrow
-      variant: minimal
-    - text: Explanation
-      link: /explanation/
-      icon: right-arrow
-      variant: minimal
+description: An AI-native documentation baseline — opinionated Astro Starlight plus raw-markdown endpoints, wrapped in a taxonomy your agent already understands.
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+<p class="rosetta-eyebrow">ROSETTA · MD</p>
 
-## The four kinds of documentation
+<div class="rosetta-hairline" />
 
-Every page in a Rosetta site fits into exactly one of the four [Diátaxis](https://diataxis.fr/) categories. Pick the one that matches the *reader's state of mind*, not the *topic*.
+# Documentation that reads like documentation.
 
-<CardGrid>
-	<Card title="Tutorials" icon="rocket">
-		Learning-oriented. The reader wants to build their first working thing. Linear, hand-holding, concrete endpoint.
-	</Card>
-	<Card title="How-to guides" icon="puzzle">
-		Problem-oriented. The reader already has a goal and just needs the recipe. Direct, assumes competence.
-	</Card>
-	<Card title="Reference" icon="list-format">
-		Information-oriented. The reader is doing a lookup. Exhaustive, dry, structured.
-	</Card>
-	<Card title="Explanation" icon="information">
-		Understanding-oriented. The reader is asking *why*. Reflective, contextual, optional.
-	</Card>
-</CardGrid>
+<p class="rosetta-lede">
+	Rosetta.md is a pre-configured Astro Starlight template for teams that want an AI agent to author, maintain, and query their docs without inventing a house style. It is not a framework or a hosting service — it is a baseline you clone and run.
+</p>
+
+## The four kinds of page
+
+Every page in a Rosetta site is exactly one of these. Pick by the reader's state of mind, not by topic.
+
+<div class="rosetta-cards">
+	<a href="/tutorials/" class="rosetta-card">
+		<span class="rosetta-card__label">Tutorials</span>
+		<span class="rosetta-card__desc">Learning-oriented. A beginner follows steps from zero to their first working result.</span>
+	</a>
+	<a href="/how-to/" class="rosetta-card">
+		<span class="rosetta-card__label">How-to guides</span>
+		<span class="rosetta-card__desc">Problem-oriented. A competent reader has a named goal and just needs the recipe.</span>
+	</a>
+	<a href="/reference/" class="rosetta-card">
+		<span class="rosetta-card__label">Reference</span>
+		<span class="rosetta-card__desc">Information-oriented. Dry, structured, exhaustive — a map of the machinery.</span>
+	</a>
+	<a href="/explanation/" class="rosetta-card">
+		<span class="rosetta-card__label">Explanation</span>
+		<span class="rosetta-card__desc">Understanding-oriented. The why — context, trade-offs, and the shape of the problem.</span>
+	</a>
+</div>
+
+## Read the rules
+
+Agents and humans share the same contract. The canonical rules live in <code>agent-docs-rules.md</code> at the repo root — what good frontmatter looks like, when to reach for each component, the decision tree that routes a page to its Diátaxis folder.
+
