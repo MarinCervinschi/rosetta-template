@@ -1,0 +1,13 @@
+---
+import { Tabs } from '@astrojs/starlight/components';
+
+interface Props {
+	syncKey?: string;
+}
+
+const { syncKey } = Astro.props;
+---
+
+<Tabs syncKey={syncKey}>
+	<slot />
+</Tabs>
