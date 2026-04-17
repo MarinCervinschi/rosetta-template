@@ -1,10 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { checkCategory } from './integrations/check-category.mjs';
 
 // https://astro.build/config
 export default defineConfig({
 	integrations: [
+		checkCategory(),
 		starlight({
 			title: 'Rosetta.md',
 			description:
