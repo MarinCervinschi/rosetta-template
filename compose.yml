@@ -1,0 +1,23 @@
+# Persistent-mode deployment for a Rosetta.md site.
+#
+# Start:   docker compose up -d --build
+# Logs:    docker compose logs -f
+# Stop:    docker compose down
+# Reload:  docker compose up -d --build
+
+services:
+  rosetta:
+    build: .
+    container_name: rosetta-docs
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    volumes:
+      # Named volume reserved for any runtime output (access logs, metrics
+      # files a consumer may wire in later). Astro preview itself does not
+      # write here; the mount exists so consumers can redirect logs without
+      # rebuilding the image.
+      - rosetta-logs:/var/log/rosetta
+
+volumes:
+  rosetta-logs:
