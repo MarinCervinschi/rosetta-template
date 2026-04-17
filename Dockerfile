@@ -29,12 +29,18 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Copy the exact deps the build resolved against, the compiled output,
-# and the config files astro preview reads at boot.
+# and every file the Astro config touches at boot. `astro preview` serves
+# dist/ but still evaluates astro.config.mjs, which imports our
+# category-check integration and references paths under src/ for the
+# Starlight customCss and component overrides — so those directories
+# need to be present in the runtime image too.
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/astro.config.mjs ./astro.config.mjs
 COPY --from=build /app/tsconfig.json ./tsconfig.json
+COPY --from=build /app/integrations ./integrations
+COPY --from=build /app/src ./src
 
 EXPOSE 4321
 
