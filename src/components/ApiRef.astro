@@ -1,0 +1,82 @@
+---
+interface Props {
+	method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+	path: string;
+	description?: string;
+	schemaLabel?: string;
+	schemaHref?: string;
+}
+
+const { method, path, description, schemaLabel, schemaHref } = Astro.props;
+const methodClass = `rosetta-apiref__method--${method.toLowerCase()}`;
+---
+
+<div class="rosetta-apiref">
+	<div class="rosetta-apiref__head">
+		<span class={`rosetta-apiref__method ${methodClass}`}>{method}</span>
+		<code class="rosetta-apiref__path">{path}</code>
+	</div>
+	{description && <p class="rosetta-apiref__desc">{description}</p>}
+	{
+		schemaLabel && (
+			<p class="rosetta-apiref__schema">
+				Schema:{' '}
+				{schemaHref ? (
+					<a href={schemaHref}>{schemaLabel}</a>
+				) : (
+					<code>{schemaLabel}</code>
+				)}
+			</p>
+		)
+	}
+	<div class="rosetta-apiref__body"><slot /></div>
+</div>
+
+<style>
+	.rosetta-apiref {
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.5rem;
+		padding: 0.9rem 1rem;
+		margin-block: 1rem;
+		background: var(--sl-color-bg-sidebar);
+	}
+	.rosetta-apiref__head {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+	}
+	.rosetta-apiref__method {
+		display: inline-block;
+		padding: 0.15rem 0.55rem;
+		border-radius: 0.3rem;
+		font-size: var(--sl-text-xs);
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: var(--sl-color-white);
+	}
+	.rosetta-apiref__method--get { background: #2563eb; }
+	.rosetta-apiref__method--post { background: #16a34a; }
+	.rosetta-apiref__method--put { background: #d97706; }
+	.rosetta-apiref__method--patch { background: #9333ea; }
+	.rosetta-apiref__method--delete { background: #dc2626; }
+	.rosetta-apiref__path {
+		font-family: var(--sl-font-mono);
+		font-size: var(--sl-text-sm);
+	}
+	.rosetta-apiref__desc {
+		margin: 0.6rem 0 0;
+		color: var(--sl-color-gray-2);
+	}
+	.rosetta-apiref__schema {
+		margin: 0.4rem 0 0;
+		font-size: var(--sl-text-sm);
+	}
+	.rosetta-apiref__body:empty {
+		display: none;
+	}
+	.rosetta-apiref__body:not(:empty) {
+		margin-top: 0.6rem;
+	}
+</style>
