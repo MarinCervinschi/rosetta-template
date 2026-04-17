@@ -1,0 +1,44 @@
+---
+title: Rosetta.md
+description: A Golden Template for AI-native documentation — opinionated Astro Starlight + Diátaxis + raw-markdown endpoints the agent can read.
+template: splash
+hero:
+  tagline: The opinionated docs baseline your AI agent and your readers both understand.
+  actions:
+    - text: Tutorials
+      link: /tutorials/
+      icon: right-arrow
+    - text: How-to guides
+      link: /how-to/
+      icon: right-arrow
+      variant: minimal
+    - text: Reference
+      link: /reference/
+      icon: right-arrow
+      variant: minimal
+    - text: Explanation
+      link: /explanation/
+      icon: right-arrow
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## The four kinds of documentation
+
+Every page in a Rosetta site fits into exactly one of the four [Diátaxis](https://diataxis.fr/) categories. Pick the one that matches the *reader's state of mind*, not the *topic*.
+
+<CardGrid>
+	<Card title="Tutorials" icon="rocket">
+		Learning-oriented. The reader wants to build their first working thing. Linear, hand-holding, concrete endpoint.
+	</Card>
+	<Card title="How-to guides" icon="puzzle">
+		Problem-oriented. The reader already has a goal and just needs the recipe. Direct, assumes competence.
+	</Card>
+	<Card title="Reference" icon="list-format">
+		Information-oriented. The reader is doing a lookup. Exhaustive, dry, structured.
+	</Card>
+	<Card title="Explanation" icon="information">
+		Understanding-oriented. The reader is asking *why*. Reflective, contextual, optional.
+	</Card>
+</CardGrid>
