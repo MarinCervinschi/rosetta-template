@@ -1,0 +1,123 @@
+---
+title: Your first Rosetta page
+description: Scaffold the template into a project, start the dev server, and land your first custom page — end-to-end in under ten minutes.
+category: tutorials
+---
+
+import Warning from '~/components/Warning.astro';
+import CodeTabs from '~/components/CodeTabs.astro';
+import { TabItem } from '@astrojs/starlight/components';
+
+By the end of this tutorial you will have cloned the template into a project, brought up a local docs server at `http://localhost:4321/`, and authored a new page that shows up in the sidebar.
+
+## Before you begin
+
+You need Node.js 22 or later and a package manager — pnpm is recommended, but npm works too. Check what you have:
+
+<CodeTabs syncKey="pm">
+	<TabItem label="pnpm">
+		```sh
+		node --version     # v22 or later
+		pnpm --version     # 10 or later
+		```
+	</TabItem>
+	<TabItem label="npm">
+		```sh
+		node --version     # v22 or later
+		npm --version      # 10 or later
+		```
+	</TabItem>
+</CodeTabs>
+
+## Step 1 — Clone the template
+
+From the project where you want docs, clone the template into `rosetta-docs/`:
+
+```sh
+git clone --depth 1 --branch v0.2.0 https://github.com/MarinCervinschi/rosetta-template.git rosetta-docs
+rm -rf rosetta-docs/.git
+```
+
+The `--branch v0.2.0` flag pins a specific release; `rm -rf rosetta-docs/.git` detaches the template's history so your project owns the folder.
+
+<Warning type="caution" title="Use rosetta-docs, not docs">
+	Many projects already have a `docs/` folder with hand-written notes. The template's scoped name `rosetta-docs/` avoids collisions. Don't rename the directory unless you also update the `rosetta-plugin` skills that look for it.
+</Warning>
+
+## Step 2 — Install dependencies
+
+<CodeTabs syncKey="pm">
+	<TabItem label="pnpm">
+		```sh
+		cd rosetta-docs
+		pnpm install --frozen-lockfile
+		```
+	</TabItem>
+	<TabItem label="npm">
+		```sh
+		cd rosetta-docs
+		npm install
+		```
+	</TabItem>
+</CodeTabs>
+
+## Step 3 — Start the dev server
+
+<CodeTabs syncKey="pm">
+	<TabItem label="pnpm">
+		```sh
+		pnpm dev
+		```
+	</TabItem>
+	<TabItem label="npm">
+		```sh
+		npm run dev
+		```
+	</TabItem>
+</CodeTabs>
+
+Open `http://localhost:4321/` — you should see the Rosetta splash page. The readiness probe at `http://localhost:4321/health` returns `{"status":"ok","service":"rosetta","version":"0.2.0"}`.
+
+## Step 4 — Add your first page
+
+Create `src/content/docs/tutorials/hello.mdx`:
+
+```mdx
+---
+title: Hello, Rosetta
+description: My first page on a Rosetta site.
+category: tutorials
+---
+
+Welcome. This file lives at `rosetta-docs/src/content/docs/tutorials/hello.mdx`
+and renders at `http://localhost:4321/tutorials/hello/`.
+```
+
+Save the file. Starlight hot-reloads and the page appears in the sidebar under Tutorials.
+
+## Step 5 — Validate the schema
+
+Before committing, run the schema check:
+
+<CodeTabs syncKey="pm">
+	<TabItem label="pnpm">
+		```sh
+		pnpm check
+		```
+	</TabItem>
+	<TabItem label="npm">
+		```sh
+		npm run check
+		```
+	</TabItem>
+</CodeTabs>
+
+It should report `0 errors`. If it fails with a frontmatter error, confirm that `category` matches the parent folder name — a mismatch between `category: tutorials` in the file and a `how-to/` parent folder fails the build.
+
+## What you've learned
+
+- The four Diátaxis sections live under `src/content/docs/`, and `category` in frontmatter must match the folder.
+- `pnpm check` (or `npm run check`) is the build-time gate — run it before shipping.
+- `http://localhost:4321/health` is the readiness probe; `http://localhost:4321/llms.txt` is the agent-readable index.
+
+Next, see the [Component reference](/reference/components/) for the custom components you can use in your pages.

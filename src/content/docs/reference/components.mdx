@@ -1,0 +1,148 @@
+---
+title: Component reference
+description: Every custom component the template ships — props, usage, and a live example of each.
+category: reference
+---
+
+import Warning from '~/components/Warning.astro';
+import CodeTabs from '~/components/CodeTabs.astro';
+import ApiRef from '~/components/ApiRef.astro';
+import { TabItem } from '@astrojs/starlight/components';
+
+Four components live under `src/components/` and are importable in any MDX page via the `~/` alias. Three are placed manually where they fit; the fourth is auto-injected and must not be placed by hand.
+
+## `<Warning />`
+
+A branded callout for genuine hazards.
+
+### Props
+
+| Prop | Type | Default | Purpose |
+|---|---|---|---|
+| `type` | `'caution' \| 'info' \| 'danger'` | `'caution'` | Color and semantic role of the callout. |
+| `title` | `string` | — | Optional heading shown above the body. |
+
+### Usage
+
+```mdx
+import Warning from '~/components/Warning.astro';
+
+<Warning type="danger" title="Destructive">
+	`pnpm astro build` overwrites `dist/` — commit first.
+</Warning>
+```
+
+### Live example
+
+<Warning type="danger" title="Destructive">
+	`pnpm astro build` overwrites `dist/` — commit first.
+</Warning>
+
+See [How to add a warning callout](/how-to/add-a-warning/) for guidance on when to reach for each variant.
+
+## `<CodeTabs />`
+
+Language-variant code blocks. Use when the same operation has meaningfully different shapes in two or more languages or toolchains. **Not** for stylistic variants of the same language.
+
+### Props
+
+| Prop | Type | Default | Purpose |
+|---|---|---|---|
+| `syncKey` | `string` | — | Optional key that links multiple `<CodeTabs>` on the page so selecting one switches them all. |
+
+Children must be `<TabItem label="...">` from `@astrojs/starlight/components`.
+
+### Usage
+
+````mdx
+import CodeTabs from '~/components/CodeTabs.astro';
+import { TabItem } from '@astrojs/starlight/components';
+
+<CodeTabs syncKey="lang">
+	<TabItem label="Python">
+		```python
+		import requests
+		r = requests.get('https://api.example.com/users/42')
+		user = r.json()
+		```
+	</TabItem>
+	<TabItem label="TypeScript">
+		```ts
+		const r = await fetch('https://api.example.com/users/42');
+		const user = await r.json();
+		```
+	</TabItem>
+</CodeTabs>
+````
+
+### Live example
+
+<CodeTabs syncKey="lang">
+	<TabItem label="Python">
+		```python
+		import requests
+		r = requests.get('https://api.example.com/users/42')
+		user = r.json()
+		```
+	</TabItem>
+	<TabItem label="TypeScript">
+		```ts
+		const r = await fetch('https://api.example.com/users/42');
+		const user = await r.json();
+		```
+	</TabItem>
+</CodeTabs>
+
+## `<ApiRef />`
+
+A single-endpoint card for reference pages describing HTTP APIs. One per endpoint.
+
+### Props
+
+| Prop | Type | Required | Purpose |
+|---|---|---|---|
+| `method` | `'GET' \| 'POST' \| 'PUT' \| 'PATCH' \| 'DELETE'` | yes | HTTP verb, color-coded. |
+| `path` | `string` | yes | URL path including any path parameters. |
+| `description` | `string` | no | One-sentence purpose of the endpoint. |
+| `schemaLabel` | `string` | no | Label for a linked request/response schema. |
+| `schemaHref` | `string` | no | URL the schema label links to. |
+
+### Usage
+
+```mdx
+import ApiRef from '~/components/ApiRef.astro';
+
+<ApiRef
+	method="POST"
+	path="/api/v1/users"
+	description="Create a new user account."
+	schemaLabel="UserCreate"
+	schemaHref="/reference/schemas/user-create/"
+/>
+```
+
+### Live example
+
+<ApiRef
+	method="POST"
+	path="/api/v1/users"
+	description="Create a new user account."
+	schemaLabel="UserCreate"
+	schemaHref="/reference/schemas/user-create/"
+/>
+
+## `<CopyMarkdownButton />` — auto-injected
+
+Renders next to every page's `h1` heading via a Starlight `PageTitle` override. Clicking it copies the raw Markdown source of the page to the clipboard — the same payload served by `GET /<slug>.md` (where `<slug>` is the page's URL path).
+
+**Do not import or place `<CopyMarkdownButton />` manually in a page body.** It appears automatically on every page; placing it by hand produces a duplicate that breaks the header layout.
+
+## Built-in endpoints
+
+Every component-using page is reachable via two URLs: the HTML page and the raw-Markdown twin. The template also exposes a readiness probe:
+
+<ApiRef method="GET" path="/health" description="JSON readiness probe. Body includes service identity and template version." />
+
+<ApiRef method="GET" path="/llms.txt" description="Machine-readable index of every page (llmstxt.org format)." />
+
+<ApiRef method="GET" path={"/<slug>.md"} description="Raw Markdown source of a page, frontmatter preserved." />

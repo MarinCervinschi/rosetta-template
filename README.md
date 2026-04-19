@@ -74,20 +74,7 @@ The authoritative rules for content — folder layout, frontmatter, component us
 
 ## Versioning
 
-The contract surface (folder layout, Zod schema, endpoint shapes, `agent-docs-rules.md` location) is governed by semver. A plugin release declares its minimum compatible template version; breaking changes to any of the above bump the template's major version.
-
-### Upgrading from v0.1.0 → v0.2.0
-
-Breaking:
-
-- The **recommended directory name for the cloned template changed from `docs/` to `rosetta-docs/`**. Existing v0.1.0 installations at `docs/` keep working — nothing inside the template hardcodes the directory name. But the rosetta-plugin's `init-docs`, `write-docs`, and `query-docs` skills now look for `rosetta-docs/`. To migrate: `mv docs rosetta-docs`, then re-point any of your own scripts or CI.
-
-Additive:
-
-- `/health` endpoint added.
-- `@astrojs/check` and `typescript` are now declared as devDependencies so `pnpm check` works on a fresh clone without manually installing them.
-- `npm` is now a supported (if non-preferred) package manager.
-- UI polish: pagination buttons, cards, and code blocks gain soft elevation; active sidebar entry now has a left-edge accent.
+The contract surface (folder layout, Zod schema, endpoint shapes, `agent-docs-rules.md` location) is governed by semver. A plugin release declares its minimum compatible template version; while both repos are in the `0.x` series, contract-surface breaks bump the minor version (from `1.0.0` onwards they bump the major). Release notes live in [`CHANGELOG.md`](./CHANGELOG.md).
 
 ## License
 

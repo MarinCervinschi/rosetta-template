@@ -1,0 +1,85 @@
+---
+title: How to add a warning callout
+description: Import the Warning component and use it to flag a genuine hazard on the page.
+category: how-to
+---
+
+import Warning from '~/components/Warning.astro';
+
+Use `<Warning />` when the reader will hurt themselves or the system if they ignore the message. Merely helpful remarks belong in prose — the callout is a scarcity signal.
+
+## Import the component
+
+At the top of your MDX file, after the frontmatter, import from the `~/` alias (which maps to `src/`):
+
+```mdx
+---
+title: ...
+description: ...
+category: ...
+---
+
+import Warning from '~/components/Warning.astro';
+```
+
+## Use the default (caution)
+
+The default `type` is `caution` — use it for recoverable-but-annoying pitfalls:
+
+```mdx
+<Warning>
+	`pnpm install --frozen-lockfile` fails if `pnpm-lock.yaml` is out of date.
+	Run a normal `pnpm install` locally first to refresh the lockfile,
+	then commit the result.
+</Warning>
+```
+
+Renders as:
+
+<Warning>
+	`pnpm install --frozen-lockfile` fails if `pnpm-lock.yaml` is out of date.
+	Run a normal `pnpm install` locally first to refresh the lockfile,
+	then commit the result.
+</Warning>
+
+## Use `info` for neutral heads-ups
+
+For context the reader benefits from but can safely ignore:
+
+```mdx
+<Warning type="info" title="Heads up">
+	The dev server rebuilds MDX files on save, but changes to `astro.config.mjs`
+	require a restart.
+</Warning>
+```
+
+Renders as:
+
+<Warning type="info" title="Heads up">
+	The dev server rebuilds MDX files on save, but changes to `astro.config.mjs`
+	require a restart.
+</Warning>
+
+## Use `danger` sparingly
+
+Reserve `danger` for destructive or irreversible operations:
+
+```mdx
+<Warning type="danger" title="Destructive">
+	`pnpm astro build` overwrites `dist/` with no prompt. Commit or stash
+	anything you care about before running it.
+</Warning>
+```
+
+Renders as:
+
+<Warning type="danger" title="Destructive">
+	`pnpm astro build` overwrites `dist/` with no prompt. Commit or stash
+	anything you care about before running it.
+</Warning>
+
+## When not to use it
+
+Do not reach for `<Warning>` to decorate a tip, a best-practice reminder, or a reassurance ("don't worry, this is safe"). A page with three warnings stops being readable as a warning at all. If you're unsure whether the reader will regret ignoring the message, it's probably prose, not a callout.
+
+See [Component reference](/reference/components/) for prop details and the other available components.
