@@ -48,6 +48,9 @@
 
 	/* Measure for long-form prose */
 	--rosetta-measure: 72ch;
+
+	/* Elevation — subtle in light mode, glow-based in dark.
+	 * Concrete values are set per theme below. */
 }
 
 /* ---------- LIGHT MODE (Starlight default when data-theme="light") ---------- */
@@ -102,6 +105,11 @@
 	--rosetta-method-put: #c2410c;
 	--rosetta-method-patch: #7e22ce;
 	--rosetta-method-delete: #b91c1c;
+
+	/* Elevation — soft, editorial. Not dramatic. */
+	--rosetta-shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.04), 0 1px 1px rgba(28, 25, 23, 0.03);
+	--rosetta-shadow-md: 0 4px 12px rgba(28, 25, 23, 0.06), 0 2px 4px rgba(28, 25, 23, 0.04);
+	--rosetta-shadow-lg: 0 10px 24px rgba(28, 25, 23, 0.08), 0 4px 8px rgba(28, 25, 23, 0.05);
 }
 
 /* ---------- DARK MODE (its own palette, not inverted) ---------- */
@@ -156,6 +164,12 @@
 	--rosetta-method-put: #fb923c;
 	--rosetta-method-patch: #c084fc;
 	--rosetta-method-delete: #f87171;
+
+	/* Elevation — on dark surfaces shadows mostly disappear, so we
+	 * combine a shadow with a top-edge light line for perceived lift. */
+	--rosetta-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+	--rosetta-shadow-md: 0 6px 16px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+	--rosetta-shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 /* ---------- BASE TYPOGRAPHY ---------- */
@@ -285,18 +299,21 @@ code {
 	border: 1px solid var(--sl-color-hairline);
 	border-radius: var(--rosetta-radius-card);
 	background: var(--sl-color-bg);
+	box-shadow: var(--rosetta-shadow-sm);
 	color: inherit;
 	text-decoration: none;
 	transition:
 		border-color var(--rosetta-duration) var(--rosetta-ease-out),
 		transform var(--rosetta-duration) var(--rosetta-ease-out),
+		box-shadow var(--rosetta-duration) var(--rosetta-ease-out),
 		background-color var(--rosetta-duration) var(--rosetta-ease-out);
 }
 
 .rosetta-card:hover,
 .rosetta-card:focus-visible {
 	border-color: var(--sl-color-accent);
-	transform: translateY(-1px);
+	transform: translateY(-2px);
+	box-shadow: var(--rosetta-shadow-md);
 	background: var(--sl-color-accent-low);
 }
 
@@ -311,4 +328,67 @@ code {
 	font-size: var(--rosetta-text-sm);
 	line-height: 1.55;
 	color: var(--sl-color-gray-2);
+}
+
+/* ---------- PAGINATION (Starlight Previous/Next at page bottom) ---------- */
+
+/* Starlight renders pagination as two <a.pagination-links> anchors inside
+ * a container. They ship flat — no shadow, no lift on hover. Give them the
+ * same editorial treatment as .rosetta-card so the page footer doesn't
+ * feel dead at the handoff. */
+.pagination-links {
+	gap: var(--rosetta-space-4);
+}
+
+.pagination-links > a {
+	border-radius: var(--rosetta-radius-card);
+	border: 1px solid var(--sl-color-hairline);
+	background: var(--sl-color-bg);
+	box-shadow: var(--rosetta-shadow-sm);
+	padding: var(--rosetta-space-4) var(--rosetta-space-6);
+	transition:
+		border-color var(--rosetta-duration) var(--rosetta-ease-out),
+		transform var(--rosetta-duration) var(--rosetta-ease-out),
+		box-shadow var(--rosetta-duration) var(--rosetta-ease-out),
+		background-color var(--rosetta-duration) var(--rosetta-ease-out);
+}
+
+.pagination-links > a:hover,
+.pagination-links > a:focus-visible {
+	border-color: var(--sl-color-accent);
+	transform: translateY(-2px);
+	box-shadow: var(--rosetta-shadow-md);
+	background: var(--sl-color-accent-low);
+}
+
+.pagination-links > a .link-title {
+	font-family: var(--rosetta-font-heading);
+	font-weight: 500;
+}
+
+.pagination-links > a > span:first-child {
+	font-size: var(--rosetta-text-xs);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--sl-color-gray-3);
+}
+
+/* ---------- CODE BLOCKS (elevation + tidier border) ---------- */
+
+/* Starlight's code blocks sit flat against the page background. A whisper
+ * of elevation plus a hairline makes them readable as a unit without
+ * shouting. */
+.expressive-code .frame {
+	border-radius: var(--rosetta-radius-card);
+	border: 1px solid var(--sl-color-hairline);
+	box-shadow: var(--rosetta-shadow-sm);
+}
+
+/* ---------- SIDEBAR ENTRIES (subtle active state) ---------- */
+
+/* Starlight marks the current page via aria-current; add a left-edge
+ * accent so it's readable without relying only on color. */
+.sidebar-content a[aria-current='page'] {
+	border-left: 2px solid var(--sl-color-accent);
+	padding-left: calc(var(--rosetta-space-3) - 2px);
 }
