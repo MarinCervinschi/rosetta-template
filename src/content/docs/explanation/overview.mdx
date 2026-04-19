@@ -1,0 +1,22 @@
+---
+title: Project overview
+description: What this project is, what it runs on, and where to start in these docs.
+category: explanation
+---
+
+This page is a placeholder. It's where the **project overview** lives once this site is personalized.
+
+## Populate it
+
+Two ways:
+
+- Run `/rosetta:personalize-docs` from Claude Code with the `rosetta-plugin` installed. It detects the project's name, description, and stack from standard metadata files (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`, `README.md`, Dockerfile/compose heuristics), previews the changes, and rewrites this file with project-specific prose plus a stack summary.
+- Or edit this file by hand. Keep the `category: explanation` frontmatter — it's the only thing the build-time schema check enforces.
+
+## What goes here
+
+An overview page is the answer to *"what is this project?"* — not *"how do I use it"* (that's a tutorial or how-to) and not *"what are all its fields"* (that's reference). Typical shape:
+
+1. A one-paragraph description of the project and what problem it solves.
+2. A short list of the stack: language, framework, database, deploy target.
+3. Links into the rest of the docs: "start here if you're new" (tutorial), "look here for the admin flow" (how-to), "here's the data model" (reference).

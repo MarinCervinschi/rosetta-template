@@ -1,17 +1,17 @@
 ---
-title: Rosetta.md
-description: An AI-native documentation baseline — opinionated Astro Starlight plus raw-markdown endpoints, wrapped in a taxonomy your agent already understands.
+title: Home
+description: Project documentation.
 ---
 
-<p class="rosetta-eyebrow">ROSETTA · MD</p>
+import config from '~/rosetta.config.json';
+
+<p class="rosetta-eyebrow">{config.name.toUpperCase()}</p>
 
 <div class="rosetta-hairline" />
 
-# Documentation that reads like documentation.
+# {config.name}
 
-<p class="rosetta-lede">
-	Rosetta.md is a pre-configured Astro Starlight template for teams that want an AI agent to author, maintain, and query their docs without inventing a house style. It is not a framework or a hosting service — it is a baseline you clone and run.
-</p>
+<p class="rosetta-lede">{config.description}</p>
 
 ## The four kinds of page
 
@@ -39,4 +39,3 @@ Every page in a Rosetta site is exactly one of these. Pick by the reader's state
 ## Read the rules
 
 Agents and humans share the same contract. The canonical rules live in <code>agent-docs-rules.md</code> at the repo root — what good frontmatter looks like, when to reach for each component, the decision tree that routes a page to its Diátaxis folder.
-

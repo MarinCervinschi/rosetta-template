@@ -1,0 +1,14 @@
+{
+  "name": "Rosetta.md",
+  "tagline": "An AI-native documentation baseline.",
+  "description": "Opinionated Astro Starlight plus raw-markdown endpoints, organized into the four Diátaxis categories.",
+  "stack": {
+    "language": null,
+    "framework": null,
+    "database": null,
+    "orm": null,
+    "deploy": null
+  },
+  "personalized": false,
+  "personalizedAt": null
+}

@@ -4,6 +4,28 @@ All notable changes to `rosetta-template` are recorded here. The format follows 
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-04-19
+
+Metadata becomes data. A single JSON file now drives the site's identity (title, tagline, description, stack summary), which lets the `rosetta-plugin`'s `/rosetta:personalize-docs` skill personalize a project by editing one file instead of three. The template's own demo pages move under per-section `meta/` subfolders so they stay as useful reference without cluttering a consumer's sidebar.
+
+### Breaking (contract surface)
+
+- **New required file: `rosetta-docs/src/rosetta.config.json`.** Stores `name`, `tagline`, `description`, `stack` (language/framework/database/orm/deploy), `personalized`, `personalizedAt`. `astro.config.mjs` reads `title` and `description` from it at build time; `src/content/docs/index.mdx` uses `{config.name}` and `{config.description}` expressions for the hero. The rosetta-plugin v0.3.1+ edits this file to personalize a project. Consumers upgrading from v0.2.0 who hand-edited `astro.config.mjs` for a custom title should move that value into this JSON.
+- **Demo pages relocated to `meta/` subfolders.** `tutorials/getting-started.mdx → tutorials/meta/getting-started.mdx`, `how-to/add-a-warning.mdx → how-to/meta/add-a-warning.mdx`, `reference/components.mdx → reference/meta/components.mdx`. They remain useful as Rosetta reference but are now visually separated from consumer content in the sidebar. Cross-links between them updated. Consumers who had hand-links to the old paths need to update them.
+
+### Added
+
+- `rosetta-docs/src/content/docs/explanation/overview.mdx` — new placeholder page that the `rosetta-plugin` overwrites during personalization. Ships with a `<!-- rosetta:overview:placeholder -->` marker so the plugin can distinguish an unmodified placeholder from a personalized overview (idempotency guard).
+
+### Changed
+
+- `astro.config.mjs` imports `./src/rosetta.config.json` and uses `rosettaConfig.name` / `rosettaConfig.tagline` in `starlight({ ... })`.
+- `src/content/docs/index.mdx` uses `{config.*}` expressions in the hero (eyebrow, H1, lede). The frontmatter `title` stays static (`Home`) because Zod doesn't evaluate expressions.
+
+### Versioning
+
+- `package.json` bumped `0.2.0 → 0.3.0`.
+
 ## [0.2.0] — 2026-04-19
 
 ### Breaking (contract surface)
