@@ -4,6 +4,12 @@ All notable changes to `rosetta-template` are recorded here. The format follows 
 
 ## [Unreleased]
 
+## [0.3.1] — 2026-04-19
+
+### Changed
+
+- **README rewritten for clarity.** Tighter sections, shorter prose, each quickstart command in its own code block, drops the `pnpm dlx degit` alternate install path in favor of a single "Use this template" flow. `rosetta.config.json` explained as the rebrand surface. Ships a custom favicon. No contract-surface changes.
+
 ## [0.3.0] — 2026-04-19
 
 Metadata becomes data. A single JSON file now drives the site's identity (title, tagline, description, stack summary), which lets the `rosetta-plugin`'s `/rosetta:personalize-docs` skill personalize a project by editing one file instead of three. The template's own demo pages move under per-section `meta/` subfolders so they stay as useful reference without cluttering a consumer's sidebar.
@@ -49,6 +55,8 @@ Metadata becomes data. A single JSON file now drives the site's identity (title,
 
 - Initial release. Astro Starlight baseline with four Diátaxis sections (`tutorials/`, `how-to/`, `reference/`, `explanation/`), Zod-validated frontmatter schema in `src/content.config.ts`, custom components (`<Warning>`, `<CodeTabs>`, `<ApiRef>`, auto-injected `<CopyMarkdownButton>`), editorial theme (cream + ink light / warm dark, Fraunces + Inter + JetBrains Mono, self-hosted fonts), `GET /<slug>.md` raw-Markdown twin endpoint, `GET /llms.txt` llmstxt.org index endpoint, Dockerfile + `compose.yml` for persistent deployment, and canonical `agent-docs-rules.md` content contract.
 
-[Unreleased]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/MarinCervinschi/rosetta-template/releases/tag/v0.1.0
