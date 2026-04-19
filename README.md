@@ -2,7 +2,7 @@
 
 An opinionated [Astro Starlight](https://starlight.astro.build/) template for AI-native documentation: Diátaxis-organized, schema-validated, with raw-markdown twins at `/<slug>.md`, an `/llms.txt` index any agent can read, and a `/health` readiness probe.
 
-This is **Repo A** of the Rosetta.md system. The companion [`rosetta-plugin`](https://github.com/MarinCervinschi/rosetta-plugin) (Repo B) is a Claude Code plugin that writes, maintains, and queries content inside sites built from this template. You can also use it standalone.
+The template works standalone — clone it, run `pnpm dev`, write pages. It also pairs with [`rosetta-plugin`](https://github.com/MarinCervinschi/rosetta-plugin), a Claude Code plugin that automates the boring parts: scaffolding into a consumer project, populating the site's metadata, writing Diátaxis-classified pages, and querying live docs with citations.
 
 ## Quickstart
 
@@ -37,13 +37,33 @@ npm run dev
 
 Trade-offs: npm resolves the dep tree independently from the pnpm lockfile, so reproducibility across machines is weaker. For CI and deployments, stick with pnpm.
 
+### Rebrand the site
+
+Edit `src/rosetta.config.json` — it drives the Starlight title and description and the splash hero:
+
+```json
+{
+  "name": "My Project",
+  "tagline": "A one-liner for the site subtitle.",
+  "description": "A longer one-sentence description for <meta>.",
+  "stack": { "language": null, "framework": null, "database": null, "orm": null, "deploy": null },
+  "personalized": true,
+  "personalizedAt": "2026-04-19T00:00:00Z"
+}
+```
+
+`astro.config.mjs` imports this file and passes `name`/`tagline` to Starlight; `src/content/docs/index.mdx` uses `{config.name}` and `{config.description}` expressions in the hero. You don't need to touch those files.
+
+If you're using the [`rosetta-plugin`](https://github.com/MarinCervinschi/rosetta-plugin), `/rosetta:personalize-docs` detects the project's identity from `package.json` / `pyproject.toml` / `go.mod` / etc., previews the changes, and writes this JSON for you. One-shot — edit by hand afterwards.
+
 ## What you get
 
-- **Four Diátaxis sections** pre-configured: `tutorials/`, `how-to/`, `reference/`, `explanation/`.
+- **Four Diátaxis sections** pre-configured: `tutorials/`, `how-to/`, `reference/`, `explanation/`. Sub-grouping folders are allowed inside each (for example the template ships its own walkthroughs under `tutorials/meta/`, `how-to/meta/`, `reference/meta/` — visible as a "meta" sub-tree in the sidebar, separate from your project content).
+- **`src/rosetta.config.json`** — single source for the site's name, tagline, description, and a small stack summary. Edit it by hand or let the `rosetta-plugin` populate it.
 - **Zod frontmatter schema** with a build-time check that fails if a page's `category` does not match its folder.
 - **Custom components** — `<Warning />`, `<CodeTabs />`, `<ApiRef />`, and an auto-injected `<CopyMarkdownButton />` next to every H1.
 - **AI-readable endpoints** — `/<slug>.md` returns the page source with frontmatter preserved; `/llms.txt` indexes every page for agent consumption; `/health` returns `{"status":"ok","service":"rosetta","version":"<n>"}` for readiness probes.
-- **Editorial theme** — cream + ink light mode, warm dark mode, Fraunces headings + Inter body + JetBrains Mono code, all self-hosted. Cards, pagination, and code blocks now carry a subtle elevation; sidebar entries mark the current page with a left-edge accent.
+- **Editorial theme** — cream + ink light mode, warm dark mode, Fraunces headings + Inter body + JetBrains Mono code, all self-hosted. Cards, pagination, and code blocks carry a subtle elevation; sidebar entries mark the current page with a left-edge accent.
 - **Persistent mode** — `docker compose up -d` runs the built site on port 4321.
 
 ## Commands
