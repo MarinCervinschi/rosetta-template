@@ -1,0 +1,92 @@
+---
+title: Mermaid diagrams
+description: Render Mermaid diagrams inline in documentation pages via fenced code blocks or the explicit component.
+category: reference
+---
+
+import Mermaid from '~/components/Mermaid.astro';
+
+Mermaid diagrams render client-side when the page loads. Toggle the light/dark theme switch to see diagram colors update automatically.
+
+## Fenced code block
+
+Any fenced code block with the `mermaid` language tag renders as a diagram automatically. No import needed.
+
+```mermaid
+graph LR
+    A[Write MDX] --> B[Build]
+    B --> C{Valid?}
+    C -->|Yes| D[Deploy]
+    C -->|No| E[Fix errors]
+    E --> A
+```
+
+## Explicit component
+
+Import `<Mermaid>` for more control. Pass the diagram source via the `chart` prop.
+
+### Props
+
+| Prop | Type | Required | Purpose |
+|---|---|---|---|
+| `chart` | `string` | yes | Mermaid diagram definition. |
+
+### Usage
+
+````mdx
+import Mermaid from '~/components/Mermaid.astro';
+
+<Mermaid chart={`
+sequenceDiagram
+    participant Browser
+    participant Server
+    Browser->>Server: GET /health
+    Server-->>Browser: {"status":"ok"}
+`} />
+````
+
+### Live example
+
+<Mermaid chart={`
+sequenceDiagram
+    participant Browser
+    participant Server
+    Browser->>Server: GET /health
+    Server-->>Browser: {"status":"ok"}
+`} />
+
+## More diagram types
+
+### Flowchart
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Is it working?}
+    B -->|Yes| C[Ship it]
+    B -->|No| D[Debug]
+    D --> B
+```
+
+### Class diagram
+
+```mermaid
+classDiagram
+    class Document {
+        +String title
+        +String description
+        +String category
+        +render() HTML
+    }
+    class Template {
+        +String name
+        +String tagline
+        +build() Site
+    }
+    Template --> Document : contains
+```
+
+## Error handling
+
+Invalid mermaid syntax shows a styled error with the source and error message instead of breaking the page.
+
+<Mermaid chart="this is not valid mermaid syntax" />

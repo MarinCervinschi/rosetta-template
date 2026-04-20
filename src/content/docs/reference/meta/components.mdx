@@ -9,7 +9,7 @@ import CodeTabs from '~/components/CodeTabs.astro';
 import ApiRef from '~/components/ApiRef.astro';
 import { TabItem } from '@astrojs/starlight/components';
 
-Four components live under `src/components/` and are importable in any MDX page via the `~/` alias. Three are placed manually where they fit; the fourth is auto-injected and must not be placed by hand.
+Five components live under `src/components/` and are importable in any MDX page via the `~/` alias. Four are placed manually where they fit; the fifth is auto-injected and must not be placed by hand.
 
 ## `<Warning />`
 
@@ -130,6 +130,38 @@ import ApiRef from '~/components/ApiRef.astro';
 	schemaLabel="UserCreate"
 	schemaHref="/reference/schemas/user-create/"
 />
+
+## `<Mermaid />`
+
+Client-rendered Mermaid diagrams. Use for architecture diagrams, flowcharts, sequence diagrams, and other visual documentation. Fenced ` ```mermaid ` code blocks also render as diagrams automatically without importing the component.
+
+### Props
+
+| Prop | Type | Required | Purpose |
+|---|---|---|---|
+| `chart` | `string` | yes | Mermaid diagram definition. |
+
+### Usage
+
+````mdx
+import Mermaid from '~/components/Mermaid.astro';
+
+<Mermaid chart={`
+graph LR
+    A[Input] --> B[Process] --> C[Output]
+`} />
+````
+
+### Live example
+
+import Mermaid from '~/components/Mermaid.astro';
+
+<Mermaid chart={`
+graph LR
+    A[Input] --> B[Process] --> C[Output]
+`} />
+
+See [Mermaid diagrams](/reference/meta/mermaid/) for more diagram types and the fenced code block syntax.
 
 ## `<CopyMarkdownButton />` — auto-injected
 
