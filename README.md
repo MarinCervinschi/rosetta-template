@@ -45,7 +45,8 @@ Or let [`rosetta-plugin`](https://github.com/MarinCervinschi/rosetta-plugin) pop
 - Custom components: `<Warning />`, `<CodeTabs />`, `<ApiRef />`, `<Mermaid />`, auto-injected `<CopyMarkdownButton />`.
 - Mermaid diagrams: fenced ` ```mermaid ` blocks auto-render; or use `<Mermaid chart="..." />` explicitly. Client-side rendered, theme-aware.
 - Endpoints: `GET /<slug>.md`, `GET /llms.txt`, `GET /health`.
-- Editorial theme with soft elevation, light + dark modes, self-hosted fonts.
+- Editorial theme with soft elevation, light/dark toggle, self-hosted fonts.
+- Footer credit link to `rosetta-template` — suppress with `"showTemplateCredit": false` in `rosetta.config.json`.
 - Docker compose for persistent mode.
 
 ## Commands

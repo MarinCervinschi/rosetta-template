@@ -218,3 +218,4 @@ These are hard rules. The plugin's skills treat them as errors, not style sugges
 - **No hardcoded colors** in MDX or components. Read from CSS custom properties in `src/styles/rosetta.css`. Grep for `#[0-9a-fA-F]{3,6}` in any file you edit under `src/components/`; the match count must stay zero.
 - **No new top-level folders** under `src/content/docs/` besides the four Diátaxis sections.
 - **No removing frontmatter fields** marked required in section 2, even on placeholder pages.
+- **No hardcoded `showTemplateCredit`**. The flag lives in `src/rosetta.config.json` and defaults to `true`. Set it to `false` to suppress the footer credit link.
