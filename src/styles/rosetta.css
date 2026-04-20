@@ -445,3 +445,62 @@ code {
 	font-size: var(--rosetta-text-xs);
 	color: var(--sl-color-gray-3);
 }
+
+/* ---------- SITE TITLE / LOGO ---------- */
+
+/* Starlight's SiteTitle renders the logo image alongside the title text.
+ * Shrink the logo a touch and tighten the gap between logo and name. */
+.site-title {
+	gap: var(--rosetta-space-2);
+	font-weight: 800;
+}
+
+.site-title img {
+	height: 1.65rem;
+	width: auto;
+}
+
+/* ---------- COPY TOAST ---------- */
+
+.rosetta-toast {
+	position: fixed;
+	bottom: var(--rosetta-space-6);
+	right: var(--rosetta-space-6);
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	gap: var(--rosetta-space-2);
+	padding: 0.6rem 0.9rem;
+	background: var(--sl-color-bg-nav);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: var(--rosetta-radius);
+	box-shadow: var(--rosetta-shadow-md);
+	color: var(--sl-color-text);
+	font-family: var(--sl-font);
+	font-size: var(--rosetta-text-sm);
+	opacity: 0;
+	transform: translateY(8px);
+	pointer-events: none;
+	transition:
+		opacity var(--rosetta-duration) var(--rosetta-ease-out),
+		transform var(--rosetta-duration) var(--rosetta-ease-out);
+}
+
+.rosetta-toast[data-visible='true'] {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.rosetta-toast[data-variant='success'] {
+	border-color: var(--sl-color-accent);
+	color: var(--sl-color-text-accent);
+}
+
+.rosetta-toast[data-variant='error'] {
+	border-color: var(--rosetta-callout-stripe-danger);
+	color: var(--rosetta-callout-stripe-danger);
+}
+
+.rosetta-toast__icon {
+	flex: none;
+}

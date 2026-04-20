@@ -4,15 +4,37 @@ All notable changes to `rosetta-template` are recorded here. The format follows 
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-04-20
+
+### Breaking (contract surface)
+
+- **`rosetta.config.json` shape trimmed to essentials.** The `stack` object and `description` string are removed; presentation moves to the landing page MDX where agents and humans can edit it as plain prose. Remaining fields: `name`, `tagline`, `repoUrl`, `logo`, `showTemplateCredit`, `personalized`, `personalizedAt`. Consumers upgrading from `0.3.x` who populated `description` or `stack` in the JSON must move that content into `src/content/docs/index.mdx` (the template's `## Stack` bullet list and the opening paragraph are the two slots). The rosetta-plugin `/rosetta:personalize-docs` skill has been updated in lockstep.
+- **Landing page is now the project overview.** `src/content/docs/explanation/overview.mdx` is deleted; the root route `/` renders the project identity (name, tagline, description prose, stack, Diátaxis cards, GitHub CTA). Consumers who deep-linked to `/explanation/overview/` need to update those links to `/`. The "Read the rules" pointer that previously lived on the landing moved to `src/content/docs/explanation/agent-rules.mdx`.
+
 ### Added
 
+- **`repoUrl` field in `rosetta.config.json`.** Set once, wires a GitHub icon into the header social slot and a "View on GitHub" link on the landing page.
+- **`logo` field in `rosetta.config.json`.** Accepts a single path string or Starlight's native `{ light, dark }` pair for per-theme brand variants. Template ships `favicon.svg` (dark teal for light mode) and `favicon-dark.svg` (bright teal for dark mode).
+- **`<StackIcon name="..." />` component.** Renders a single inline brand icon (via `simple-icons`) for use in MDX stack bullet lists or anywhere else. Unknown brand names fall through to a small dot placeholder instead of erroring. ~80 stack-value aliases covered in `src/lib/stack-icon-map.ts`.
+- **Copy-as-md toast.** Clicking the `<CopyMarkdownButton />` now shows a floating, aria-live toast in addition to the in-place icon / label swap. Success and error variants.
 - **Mermaid diagram support.** Fenced ` ```mermaid ` code blocks auto-render via a remark plugin; explicit `<Mermaid chart="..." />` component also available. Client-side rendered, lazy-loaded, theme-aware (diagrams re-render on light/dark toggle). Invalid syntax shows a styled error box instead of breaking the page. Demo page at `reference/meta/mermaid`.
 - **Footer credit link.** "Built with rosetta-template" with GitHub icon in the page footer, pointing to the template repo. Suppress with `"showTemplateCredit": false` in `rosetta.config.json`.
 - **Light/dark toggle button** replaces Starlight's three-option theme selector. Single click switches theme; first visit follows system preference; choice persists via localStorage.
+- **`simple-icons` dependency.** Source of the brand SVGs consumed by `<StackIcon />`. Read from disk at build time, not bundled — so the renderable set follows what the landing page names, with no tree-shake configuration required.
+- **`src/types/rosetta-config.ts`.** TypeScript interface documenting the config shape. Not a runtime schema — the contract with personalize-docs and editor IntelliSense.
 
 ### Changed
 
+- **Landing page `src/content/docs/index.mdx` restructured as project identity.** Hero (name + tagline) → opening description paragraph (plain MDX) → `## Stack` bullet list → Diátaxis cards → "How the baseline is enforced" section → GitHub CTA. The earlier "Read the rules" section is relocated.
+- **`astro.config.mjs` conditionally wires new config surfaces.** `logo`, `social` (GitHub icon) are attached only when the corresponding config field is non-null, so a pristine template still looks like a baseline.
+- **Starlight logo image sized to `1.25rem` with a tightened `--rosetta-space-2` gap from the title**, so the mark reads as inline branding rather than a dominant graphic.
 - `z` import moved from deprecated `astro:content` re-export to `astro/zod` (prepares for Astro 7).
+
+### Removed
+
+- `description` and `stack` keys from `rosetta.config.json` (see Breaking).
+- `src/content/docs/explanation/overview.mdx` — the landing page absorbs its role.
+- `src/components/StackIcons.astro` — superseded by the inline `<StackIcon />` component.
 
 ## [0.3.1] — 2026-04-19
 
@@ -65,7 +87,8 @@ Metadata becomes data. A single JSON file now drives the site's identity (title,
 
 - Initial release. Astro Starlight baseline with four Diátaxis sections (`tutorials/`, `how-to/`, `reference/`, `explanation/`), Zod-validated frontmatter schema in `src/content.config.ts`, custom components (`<Warning>`, `<CodeTabs>`, `<ApiRef>`, auto-injected `<CopyMarkdownButton>`), editorial theme (cream + ink light / warm dark, Fraunces + Inter + JetBrains Mono, self-hosted fonts), `GET /<slug>.md` raw-Markdown twin endpoint, `GET /llms.txt` llmstxt.org index endpoint, Dockerfile + `compose.yml` for persistent deployment, and canonical `agent-docs-rules.md` content contract.
 
-[Unreleased]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/MarinCervinschi/rosetta-template/compare/v0.1.0...v0.2.0

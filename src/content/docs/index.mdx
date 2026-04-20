@@ -4,6 +4,7 @@ description: Project documentation.
 ---
 
 import config from '~/rosetta.config.json';
+import StackIcon from '~/components/StackIcon.astro';
 
 <p class="rosetta-eyebrow">{config.name.toUpperCase()}</p>
 
@@ -11,11 +12,19 @@ import config from '~/rosetta.config.json';
 
 # {config.name}
 
-<p class="rosetta-lede">{config.description}</p>
+<p class="rosetta-lede">{config.tagline}</p>
+
+Rosetta.md is an opinionated Astro Starlight baseline for project documentation. Pages are organized into the four [Diátaxis](https://diataxis.fr/) categories — tutorials, how-to guides, reference, and explanation — and every page has a raw-markdown twin so agents can consume the docs without scraping HTML. Use this site as the canonical source of truth for how this project is built, used, and extended.
+
+## Stack
+
+- <StackIcon name="TypeScript" /> **TypeScript** — type-safe authoring for the config surface and build-time integrations.
+- <StackIcon name="Astro" /> **Astro** — static site generator; pages compile to plain HTML.
+- <StackIcon name="Docker" /> **Docker** — containerized build and preview, so docs ship the same way on every machine.
 
 ## The four kinds of page
 
-Every page in a Rosetta site is exactly one of these. Pick by the reader's state of mind, not by topic.
+Every page in this site is exactly one of these. Pick by the reader's state of mind, not by topic.
 
 <div class="rosetta-cards">
 	<a href="/tutorials/" class="rosetta-card">
@@ -36,6 +45,14 @@ Every page in a Rosetta site is exactly one of these. Pick by the reader's state
 	</a>
 </div>
 
-## Read the rules
+## How the baseline is enforced
 
-Agents and humans share the same contract. The canonical rules live in <code>agent-docs-rules.md</code> at the repo root — what good frontmatter looks like, when to reach for each component, the decision tree that routes a page to its Diátaxis folder.
+- **Schema-checked frontmatter.** A build-time integration rejects any page whose frontmatter doesn't declare which of the four folders it lives in, so the structure can't drift as the site grows.
+- **The *copy as md* button.** Click the button in any page header to pull the raw-Markdown twin into your clipboard — the fastest way to hand a page to an LLM or paste into an issue.
+- **An agent contract.** `agent-docs-rules.md` at the repo root defines how pages are structured so an AI agent can extend the docs without breaking their shape. See [Agent & contributor rules](/explanation/agent-rules/).
+
+## Next steps
+
+- Ship your first page: [getting started](/tutorials/meta/getting-started/)
+- Pick a component: [component reference](/reference/meta/components/)
+- Understand the Diátaxis split: [explanation](/explanation/)

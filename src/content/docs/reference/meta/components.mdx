@@ -163,6 +163,37 @@ graph LR
 
 See [Mermaid diagrams](/reference/meta/mermaid/) for more diagram types and the fenced code block syntax.
 
+## `<StackIcon />`
+
+Renders a single inline brand icon from [`simple-icons`](https://simpleicons.org/). Designed for stack-style bullet lists on the landing page, but usable anywhere in MDX. Unknown brand names render a small dot placeholder so the bullet still lays out cleanly — no runtime errors.
+
+The `name` prop is matched against a normalization map in `src/lib/stack-icon-map.ts` (lowercases, strips punctuation), so `"Next.js"`, `"nextjs"`, and `"next"` all resolve to the same icon. Extend that map to cover new brands.
+
+### Props
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `name` | `string` | yes | Stack value (e.g. `"TypeScript"`, `"Postgres"`). Case-insensitive. |
+| `size` | `string` | — | CSS length for width and height. Default `1.1em` (inherits from surrounding text). |
+
+### Import
+
+```mdx
+import StackIcon from '~/components/StackIcon.astro';
+```
+
+### Example
+
+```mdx
+## Stack
+
+- <StackIcon name="TypeScript" /> **TypeScript** — type-safe authoring.
+- <StackIcon name="Astro" /> **Astro** — static site generator.
+- <StackIcon name="Postgres" /> **Postgres** — primary datastore.
+```
+
+Icons render in `currentColor` so they inherit the surrounding text color and adapt to light / dark mode.
+
 ## `<CopyMarkdownButton />` — auto-injected
 
 Renders next to every page's `h1` heading via a Starlight `PageTitle` override. Clicking it copies the raw Markdown source of the page to the clipboard — the same payload served by `GET /<slug>.md` (where `<slug>` is the page's URL path).

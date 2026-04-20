@@ -1,14 +1,8 @@
 {
   "name": "Rosetta.md",
   "tagline": "An AI-native documentation baseline.",
-  "description": "Opinionated Astro Starlight plus raw-markdown endpoints, organized into the four Diátaxis categories.",
-  "stack": {
-    "language": null,
-    "framework": null,
-    "database": null,
-    "orm": null,
-    "deploy": null
-  },
+  "repoUrl": "https://github.com/MarinCervinschi/rosetta-template",
+  "logo": { "light": "./src/assets/favicon.svg", "dark": "./src/assets/favicon-dark.svg" },
   "showTemplateCredit": true,
   "personalized": false,
   "personalizedAt": null

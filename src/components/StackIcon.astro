@@ -1,0 +1,60 @@
+---
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import { dirname, join } from 'node:path';
+import { lookupStackSlug } from '../lib/stack-icon-map';
+
+type Props = {
+	name: string;
+	size?: string;
+};
+
+const { name, size = '1.1em' } = Astro.props;
+
+// Resolve simple-icons once per build. Raw SVGs are read at build time (not
+// bundled) so the set of renderable icons follows whatever the landing page
+// names — no compile-time registration needed.
+const require = createRequire(import.meta.url);
+const iconsDir = join(dirname(require.resolve('simple-icons')), 'icons');
+
+const slug = lookupStackSlug(name);
+let inner: string | null = null;
+if (slug) {
+	try {
+		const raw = readFileSync(join(iconsDir, `${slug}.svg`), 'utf8');
+		const match = raw.match(/<svg[^>]*>([\s\S]*)<\/svg>/);
+		inner = match ? match[1] : null;
+	} catch {
+		inner = null;
+	}
+}
+---
+
+{inner ? (
+	<svg
+		class="rosetta-stack-icon"
+		viewBox="0 0 24 24"
+		fill="currentColor"
+		role="img"
+		aria-label={name}
+		style={`width:${size};height:${size}`}
+		set:html={inner}
+	/>
+) : (
+	<span class="rosetta-stack-icon rosetta-stack-icon--missing" aria-hidden="true">·</span>
+)}
+
+<style>
+	.rosetta-stack-icon {
+		display: inline-block;
+		vertical-align: -0.15em;
+		margin-right: 0.35em;
+		color: var(--sl-color-gray-2);
+	}
+	.rosetta-stack-icon--missing {
+		width: 1.1em;
+		height: 1.1em;
+		text-align: center;
+		color: var(--sl-color-gray-3);
+	}
+</style>

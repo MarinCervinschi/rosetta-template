@@ -24,19 +24,26 @@ npm works too — `npm install` and `npm run dev`. pnpm is recommended for lockf
 
 ## Rebrand
 
-Edit `src/rosetta.config.json`. It drives the site title and splash:
+The config file is intentionally narrow — only identity and wiring lives there. Prose (description, stack, anything else) is written directly on the landing page as plain MDX.
+
+Edit `src/rosetta.config.json`:
 
 ```json
 {
   "name": "My Project",
   "tagline": "A one-liner for the subtitle.",
-  "description": "A longer one-sentence description."
+  "repoUrl": "https://github.com/me/my-project",
+  "logo": { "light": "./src/assets/favicon.svg", "dark": "./src/assets/favicon-dark.svg" }
 }
 ```
 
-`astro.config.mjs` and `src/content/docs/index.mdx` read from this file — you don't touch them.
+- `name` / `tagline` drive the header title and hero.
+- `repoUrl` adds a GitHub icon to the header and a "View on GitHub" link on the landing page. Set to `null` to hide.
+- `logo` accepts either a single path or a `{ light, dark }` pair for per-theme variants. Set to `null` to render text only.
 
-Or let [`rosetta-plugin`](https://github.com/MarinCervinschi/rosetta-plugin) populate it automatically via `/rosetta:personalize-docs`.
+For the project description, the stack list, and any other landing-page content, edit `src/content/docs/index.mdx` directly — the `## Stack` bullets use the `<StackIcon name="..." />` component for brand icons.
+
+Or let [`rosetta-plugin`](https://github.com/MarinCervinschi/rosetta-plugin) populate both files automatically via `/rosetta:personalize-docs`.
 
 ## What you get
 

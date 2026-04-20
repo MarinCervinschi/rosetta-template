@@ -42,8 +42,34 @@ const mdUrl = pathname === '' ? '/index.md' : `${pathname}.md`;
 	<span class="rosetta-copy-md__label">copy as md</span>
 </button>
 
+<div
+	class="rosetta-toast"
+	role="status"
+	aria-live="polite"
+	data-rosetta-toast
+></div>
+
 <script>
 	const RESET_AFTER_MS = 1500;
+	const TOAST_VISIBLE_MS = 1800;
+
+	let toastTimer: ReturnType<typeof setTimeout> | undefined;
+
+	function showToast(message: string, variant: 'success' | 'error') {
+		const toast = document.querySelector<HTMLElement>('[data-rosetta-toast]');
+		if (!toast) return;
+		const iconSuccess =
+			'<svg class="rosetta-toast__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+		const iconError =
+			'<svg class="rosetta-toast__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+		toast.innerHTML = `${variant === 'success' ? iconSuccess : iconError}<span>${message}</span>`;
+		toast.dataset.variant = variant;
+		toast.dataset.visible = 'true';
+		if (toastTimer) clearTimeout(toastTimer);
+		toastTimer = setTimeout(() => {
+			toast.dataset.visible = 'false';
+		}, TOAST_VISIBLE_MS);
+	}
 
 	function bind() {
 		for (const btn of document.querySelectorAll<HTMLButtonElement>(
@@ -65,10 +91,12 @@ const mdUrl = pathname === '' ? '/index.md' : `${pathname}.md`;
 					await navigator.clipboard.writeText(text);
 					btn.dataset.state = 'success';
 					label.textContent = 'copied';
+					showToast('Markdown copied to clipboard', 'success');
 				} catch (err) {
 					console.error('[rosetta-copy-md]', err);
 					btn.dataset.state = 'error';
 					label.textContent = 'copy failed';
+					showToast('Copy failed — open the console for details', 'error');
 				}
 				setTimeout(() => {
 					btn.dataset.state = '';
