@@ -2,10 +2,14 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { checkCategory } from './integrations/check-category.mjs';
+import { remarkMermaid } from './integrations/remark-mermaid.mjs';
 import rosettaConfig from './src/rosetta.config.json' with { type: 'json' };
 
 // https://astro.build/config
 export default defineConfig({
+	markdown: {
+		remarkPlugins: [remarkMermaid],
+	},
 	integrations: [
 		checkCategory(),
 		starlight({

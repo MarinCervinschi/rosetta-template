@@ -93,7 +93,7 @@ import ApiRef from '~/components/ApiRef.astro';
 
 ## 3. Component usage
 
-Four custom components are shipped at `src/components/`. Import with the `~/` alias:
+Five custom components are shipped at `src/components/`. Import with the `~/` alias:
 
 ```mdx
 import Warning from '~/components/Warning.astro';
@@ -138,6 +138,26 @@ import { TabItem } from '@astrojs/starlight/components';
 	schemaHref="/reference/schemas/user-create/"
 />
 ```
+
+**`<Mermaid />`** — a client-rendered Mermaid diagram. Use for architecture diagrams, flowcharts, sequence diagrams, and other visual documentation. Pass the diagram source via the `chart` prop. Fenced ` ```mermaid ` code blocks also render as diagrams automatically without importing the component.
+
+```mdx
+import Mermaid from '~/components/Mermaid.astro';
+
+<Mermaid chart={`
+graph LR
+    A[Input] --> B[Process] --> C[Output]
+`} />
+```
+
+Fenced code blocks with the `mermaid` language tag render as diagrams automatically:
+
+~~~mdx
+```mermaid
+graph LR
+    A[Input] --> B[Process] --> C[Output]
+```
+~~~
 
 **`<CopyMarkdownButton />`** — auto-rendered next to every page's `<h1>` via a Starlight override. Do **not** import or place it manually in page bodies.
 
