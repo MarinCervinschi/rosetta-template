@@ -1,0 +1,157 @@
+---
+/**
+ * Replaces Starlight's three-option theme <select> with a single
+ * sun/moon toggle button. First visit follows system preference;
+ * an explicit click locks to light or dark and persists via localStorage.
+ */
+---
+
+<starlight-theme-toggle>
+	<button type="button" class="rosetta-theme-toggle" aria-label="Toggle theme">
+		<svg
+			class="rosetta-theme-toggle__icon rosetta-theme-toggle__icon--sun"
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true"
+		>
+			<circle cx="12" cy="12" r="5" />
+			<line x1="12" y1="1" x2="12" y2="3" />
+			<line x1="12" y1="21" x2="12" y2="23" />
+			<line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+			<line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+			<line x1="1" y1="12" x2="3" y2="12" />
+			<line x1="21" y1="12" x2="23" y2="12" />
+			<line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+			<line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+		</svg>
+		<svg
+			class="rosetta-theme-toggle__icon rosetta-theme-toggle__icon--moon"
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			aria-hidden="true"
+		>
+			<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+		</svg>
+	</button>
+</starlight-theme-toggle>
+
+{/* Inlined to set correct icon before hydration — avoids FOUC. */}
+<script is:inline>
+	StarlightThemeProvider.updatePickers();
+</script>
+
+<script>
+	declare const StarlightThemeProvider: {
+		updatePickers(theme?: string): void;
+	};
+
+	const storageKey = 'starlight-theme';
+
+	function getSystemTheme(): 'light' | 'dark' {
+		return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+	}
+
+	function getEffectiveTheme(): 'light' | 'dark' {
+		const stored = typeof localStorage !== 'undefined' && localStorage.getItem(storageKey);
+		if (stored === 'light' || stored === 'dark') return stored;
+		return getSystemTheme();
+	}
+
+	function applyTheme(theme: 'light' | 'dark') {
+		document.documentElement.dataset.theme = theme;
+		if (typeof localStorage !== 'undefined') {
+			localStorage.setItem(storageKey, theme);
+		}
+		StarlightThemeProvider.updatePickers(theme);
+	}
+
+	function syncIcons() {
+		const theme = document.documentElement.dataset.theme;
+		document.querySelectorAll('starlight-theme-toggle').forEach((el) => {
+			el.setAttribute('data-theme', theme || 'light');
+		});
+	}
+
+	// React to system preference changes when no explicit choice is stored.
+	matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+		const stored = typeof localStorage !== 'undefined' && localStorage.getItem(storageKey);
+		if (!stored) {
+			const sys = getSystemTheme();
+			document.documentElement.dataset.theme = sys;
+			syncIcons();
+		}
+	});
+
+	class StarlightThemeToggle extends HTMLElement {
+		constructor() {
+			super();
+			this.setAttribute('data-theme', getEffectiveTheme());
+			this.querySelector('button')?.addEventListener('click', () => {
+				const current = document.documentElement.dataset.theme;
+				const next = current === 'dark' ? 'light' : 'dark';
+				applyTheme(next);
+				syncIcons();
+			});
+		}
+	}
+
+	customElements.define('starlight-theme-toggle', StarlightThemeToggle);
+
+	function init() {
+		syncIcons();
+	}
+	init();
+	document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+	.rosetta-theme-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 32px;
+		height: 32px;
+		padding: 0;
+		border: 1px solid var(--sl-color-hairline);
+		border-radius: var(--rosetta-radius);
+		background: transparent;
+		color: var(--sl-color-text);
+		cursor: pointer;
+		transition:
+			border-color var(--rosetta-duration) var(--rosetta-ease-out),
+			color var(--rosetta-duration) var(--rosetta-ease-out);
+	}
+
+	.rosetta-theme-toggle:hover {
+		border-color: var(--sl-color-accent);
+		color: var(--sl-color-text-accent);
+	}
+
+	/* In light mode show the moon (click → go dark), hide the sun. */
+	:global([data-theme='light']) .rosetta-theme-toggle__icon--sun {
+		display: none;
+	}
+	:global([data-theme='light']) .rosetta-theme-toggle__icon--moon {
+		display: block;
+	}
+
+	/* In dark mode show the sun (click → go light), hide the moon. */
+	:global([data-theme='dark']) .rosetta-theme-toggle__icon--sun {
+		display: block;
+	}
+	:global([data-theme='dark']) .rosetta-theme-toggle__icon--moon {
+		display: none;
+	}
+</style>

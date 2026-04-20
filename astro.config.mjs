@@ -22,6 +22,8 @@ export default defineConfig({
 			customCss: ['./src/styles/rosetta.css'],
 			components: {
 				PageTitle: './src/components/overrides/PageTitle.astro',
+				ThemeSelect: './src/components/overrides/ThemeToggle.astro',
+				Footer: './src/components/overrides/Footer.astro',
 			},
 			sidebar: [
 				{ label: 'Tutorials', autogenerate: { directory: 'tutorials' } },
