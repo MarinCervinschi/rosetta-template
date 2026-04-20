@@ -4,6 +4,16 @@ All notable changes to `rosetta-template` are recorded here. The format follows 
 
 ## [Unreleased]
 
+### Added
+
+- **Mermaid diagram support.** Fenced ` ```mermaid ` code blocks auto-render via a remark plugin; explicit `<Mermaid chart="..." />` component also available. Client-side rendered, lazy-loaded, theme-aware (diagrams re-render on light/dark toggle). Invalid syntax shows a styled error box instead of breaking the page. Demo page at `reference/meta/mermaid`.
+- **Footer credit link.** "Built with rosetta-template" with GitHub icon in the page footer, pointing to the template repo. Suppress with `"showTemplateCredit": false` in `rosetta.config.json`.
+- **Light/dark toggle button** replaces Starlight's three-option theme selector. Single click switches theme; first visit follows system preference; choice persists via localStorage.
+
+### Changed
+
+- `z` import moved from deprecated `astro:content` re-export to `astro/zod` (prepares for Astro 7).
+
 ## [0.3.1] — 2026-04-19
 
 ### Changed
