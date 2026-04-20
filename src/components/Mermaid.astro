@@ -1,0 +1,17 @@
+---
+interface Props {
+	/** Mermaid diagram definition string. */
+	chart: string;
+}
+
+const { chart } = Astro.props;
+---
+
+<div class="rosetta-mermaid" data-source={chart}></div>
+
+<script>
+	import { initMermaid } from './mermaid-renderer';
+
+	initMermaid();
+	document.addEventListener('astro:page-load', () => initMermaid());
+</script>

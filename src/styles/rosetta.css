@@ -393,3 +393,55 @@ code {
 	border-left: 2px solid var(--sl-color-accent);
 	padding-left: calc(var(--rosetta-space-3) - 2px);
 }
+
+/* ---------- MERMAID DIAGRAMS ---------- */
+
+.rosetta-mermaid {
+	margin-block: var(--rosetta-space-6);
+	text-align: center;
+	overflow-x: auto;
+}
+
+.rosetta-mermaid.rosetta-mermaid--rendered,
+.rosetta-mermaid.rosetta-mermaid--error {
+	padding: var(--rosetta-space-4);
+	border: 1px solid var(--sl-color-hairline);
+	border-radius: var(--rosetta-radius-card);
+	background: var(--sl-color-bg-sidebar);
+	box-shadow: var(--rosetta-shadow-sm);
+}
+
+.rosetta-mermaid svg {
+	max-width: 100%;
+	height: auto;
+}
+
+.rosetta-mermaid__error {
+	text-align: left;
+	padding: var(--rosetta-space-3);
+	background: var(--rosetta-callout-bg-danger);
+	border-left: 3px solid var(--rosetta-callout-stripe-danger);
+	border-radius: var(--rosetta-radius);
+	font-size: var(--rosetta-text-sm);
+}
+
+.rosetta-mermaid__error strong {
+	color: var(--rosetta-callout-stripe-danger);
+}
+
+.rosetta-mermaid__error pre {
+	margin: var(--rosetta-space-2) 0 0;
+	white-space: pre-wrap;
+	font-family: var(--sl-font-mono);
+	font-size: var(--rosetta-text-xs);
+}
+
+.rosetta-mermaid__error details {
+	margin-top: var(--rosetta-space-2);
+}
+
+.rosetta-mermaid__error summary {
+	cursor: pointer;
+	font-size: var(--rosetta-text-xs);
+	color: var(--sl-color-gray-3);
+}
