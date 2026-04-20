@@ -9,6 +9,7 @@
     "orm": null,
     "deploy": null
   },
+  "showTemplateCredit": true,
   "personalized": false,
   "personalizedAt": null
 }
