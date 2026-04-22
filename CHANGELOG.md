@@ -4,6 +4,22 @@ All notable changes to `rosetta-template` are recorded here. The format follows 
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-04-22
+
+### Changed (contract surface — theme)
+
+- **Body font swapped from Inter to Instrument Sans Variable.** Inter has become ubiquitous across modern dev UIs (Anthropic, GitHub, Figma, Vercel, Linear); Instrument Sans gives the template a distinctive editorial voice that pairs naturally with the existing Fraunces serif headings. `font-feature-settings` updated from Inter-specific character variants (`cv02`, `cv03`, `cv04`, `cv11`) to standard `kern`, `liga`. Consumers who overrode `--sl-font` will keep their override.
+- **Surface palette desaturated.** Warm cream backgrounds (`#faf7f2` light / `#1a1816` dark) shift to neutral-warm stone tones (`#fafaf9` / `#18181a`). The sidebar, inline-code, code-block, and hairline tokens move in lockstep to the stone scale. The yellow cast is removed while keeping a whisper of warmth — not pure white, not cold. Paste-inspired restraint.
+- **Elevation pulled lower.** Light-mode shadow opacity reduced ~25–30%; dark-mode inset highlight-lines reduced in kind. Cards and code blocks read as quieter containers.
+- **Heading letter-spacing tightened** from `-0.015em` to `-0.02em` to match the Fraunces / Instrument Sans pairing.
+- **Logo image refresh** (carried over from `e293c1d`).
+
+### Preserved
+
+- Accent teal (`#0f766e` light / `#5eead4` dark), callout stripe + background colors, HTTP method badge colors, Fraunces serif headings, JetBrains Mono for code.
+- Spacing scale, radii, motion tokens.
+- No component markup, content, or `astro.config.mjs` changes — tokens-only refresh.
+
 ## [0.4.0] — 2026-04-20
 
 ### Breaking (contract surface)
