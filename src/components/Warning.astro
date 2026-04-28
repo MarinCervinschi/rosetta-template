@@ -48,16 +48,16 @@ const { type = 'caution', title } = Astro.props;
 			)
 		}
 	</svg>
-	<div class="rosetta-warning__body">
-		{title && <p class="rosetta-warning__title">{title}</p>}
-		<div class="rosetta-warning__content"><slot /></div>
-	</div>
+	{title && <p class="rosetta-warning__title">{title}</p>}
+	<div class="rosetta-warning__content"><slot /></div>
 </aside>
 
 <style>
 	.rosetta-warning {
-		display: flex;
-		gap: 0.75rem;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		column-gap: 0.75rem;
+		align-items: start;
 		padding: var(--rosetta-space-4) var(--rosetta-space-6);
 		margin-block: var(--rosetta-space-6);
 		border-radius: var(--rosetta-radius);
@@ -93,28 +93,42 @@ const { type = 'caution', title } = Astro.props;
 	}
 
 	.rosetta-warning__icon {
-		flex: none;
+		grid-column: 1;
+		grid-row: 1;
+		align-self: start;
+		display: block;
 		margin-top: 0.2rem;
 	}
 
-	.rosetta-warning__body {
-		flex: 1;
-		min-width: 0;
-	}
-
 	.rosetta-warning__title {
+		grid-column: 2;
+		grid-row: 1;
+		align-self: start;
 		font-family: var(--rosetta-font-heading);
 		font-weight: 500;
 		font-size: var(--rosetta-text-lg);
-		margin: 0 0 var(--rosetta-space-2);
+		line-height: 1.25;
+		margin: 0;
 		color: var(--sl-color-text);
 	}
 
-	.rosetta-warning__content :last-child {
+	.rosetta-warning__content {
+		grid-column: 2;
+		align-self: start;
+		min-width: 0;
+		line-height: 1.55;
+	}
+
+	/* When a title is present, give the body a small gap below it. */
+	.rosetta-warning__title + .rosetta-warning__content {
+		margin-top: var(--rosetta-space-2);
+	}
+
+	.rosetta-warning__content > :last-child {
 		margin-bottom: 0;
 	}
 
-	.rosetta-warning__content :first-child {
+	.rosetta-warning__content > :first-child {
 		margin-top: 0;
 	}
 </style>
